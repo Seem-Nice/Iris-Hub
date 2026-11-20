@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRIS | MATA Support Hub</title>
+<style>
+:root{--bg:#071426;--panel:#10243d;--panel2:#142d49;--cyan:#55e5ff;--blue:#348dff;--text:#effaff;--muted:#a9c3d8;--line:rgba(85,229,255,.22)}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 15% 10%,#12375a 0,transparent 32%),radial-gradient(circle at 90% 80%,#102e52 0,transparent 30%),var(--bg);font-family:Arial,Helvetica,sans-serif;color:var(--text);min-height:100vh;padding:22px}
+.shell{max-width:1000px;margin:auto}
+.hero{text-align:center;padding:22px 12px 18px}
+.logo{width:82px;height:82px;margin:0 auto 12px;border-radius:26px;display:grid;place-items:center;font-size:42px;background:linear-gradient(145deg,#164a70,#10243d);border:1px solid var(--cyan);box-shadow:0 0 28px #35d9ff55}
+h1{font-size:clamp(27px,5vw,42px);letter-spacing:2px;margin:8px 0;color:#fff}
+h1 span{color:var(--cyan)}
+.sub{color:var(--muted);line-height:1.6;margin:0 auto;max-width:650px}
+.status{display:inline-flex;align-items:center;gap:8px;margin-top:13px;color:#9cf5d0;font-size:12px;letter-spacing:1.2px}
+.dot{width:8px;height:8px;background:#4ef0a5;border-radius:50%;box-shadow:0 0 10px #4ef0a5}
+.layout{display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:stretch}
+.card{background:linear-gradient(160deg,rgba(20,45,73,.96),rgba(9,27,47,.96));border:1px solid var(--line);border-radius:18px;box-shadow:0 14px 40px #0004}
+.side{padding:20px}
+.side h2{font-size:15px;color:var(--cyan);letter-spacing:1px;margin:0 0 14px}
+.iris{font-size:58px;text-align:center;margin:6px 0}
+.side p{font-size:13px;color:var(--muted);line-height:1.55;text-align:center}
+.topic{display:block;width:100%;margin:9px 0;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#0b1c30;color:var(--text);text-align:left;cursor:pointer}
+.topic:hover{border-color:var(--cyan);background:#12304d}
+.chat{display:flex;flex-direction:column;min-height:570px;overflow:hidden}
+.chathead{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.chathead strong{letter-spacing:1px}
+.chathead small{color:#9cf5d0}
+.messages{padding:20px;flex:1;overflow:auto;max-height:490px}
+.msg{max-width:86%;padding:13px 15px;border-radius:14px;margin:0 0 13px;line-height:1.5;font-size:14px;white-space:pre-wrap}
+.bot{background:#173653;border:1px solid #2a6586;border-top-left-radius:4px}
+.user{background:#14507a;border:1px solid #318fc4;margin-left:auto;border-top-right-radius:4px}
+.sender{display:block;font-size:10px;letter-spacing:1px;color:var(--cyan);font-weight:bold;margin-bottom:5px}
+.compose{display:flex;gap:9px;padding:15px;border-top:1px solid var(--line);background:#091a2c}
+input{min-width:0;flex:1;background:#071426;border:1px solid #315574;border-radius:12px;padding:14px;color:#fff;font-size:14px;outline:none}
+input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #55e5ff20}
+button.send{border:0;border-radius:12px;padding:0 20px;background:linear-gradient(120deg,#168bc0,#326dff);color:white;font-weight:bold;cursor:pointer}
+button.send:hover{filter:brightness(1.15)}
+.note{text-align:center;color:#8eabc2;font-size:11px;padding:13px}
+@media(max-width:760px){body{padding:12px}.layout{grid-template-columns:1fr}.side{order:2}.chat{min-height:520px}.messages{max-height:430px}.side .iris{font-size:42px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="hero">
+    <div class="logo">🤖</div>
+    <h1>IRIS <span>SUPPORT HUB</span></h1>
+    <p class="sub">Welcome, Agent! Need help with your coordinate missions? Ask IRIS about coordinates, directions, reference points and grid locations.</p>
+    <div class="status"><span class="dot"></span> IRIS ONLINE · LOCAL HELP DATABASE</div>
+  </header>
+  <main class="layout">
+    <aside class="card side">
+      <h2>MEET YOUR ASSISTANT</h2>
+      <div class="iris">🤖</div>
+      <p>Hello, Agent! I am IRIS. I can help you understand the coordinate missions.</p>
+      <h2 style="margin-top:22px">QUICK HELP</h2>
+      <button class="topic" data-q="What are coordinates?">📍 Understanding Coordinates</button>
+      <button class="topic" data-q="How do I follow directions?">🧭 Directions and Movement</button>
+      <button class="topic" data-q="What is a reference point?">🎯 Reference Points</button>
+      <button class="topic" data-q="How do I read a grid location?">🔎 Reading Grid Locations</button>
+      <p style="margin-top:18px">If I cannot answer after two tries, please ask your teacher for help.</p>
+    </aside>
+    <section class="card chat">
+      <div class="chathead"><strong>IRIS · AGENT ASSISTANCE</strong><small>● READY</small></div>
+      <div class="messages" id="messages" aria-live="polite">
+        <div class="msg bot"><span class="sender">IRIS</span>Hello, Agent! 👋 What would you like to learn today? Type your question below or choose a Quick Help topic.</div>
+      </div>
+      <form class="compose" id="chatForm">
+        <input id="question" autocomplete="off" placeholder="Type your question here, Agent..." aria-label="Type your question">
+        <button class="send" type="submit">SEND ➤</button>
+      </form>
+      <div class="note">IRIS uses a prepared learning database. Do not enter personal information.</div>
+    </section>
+  </main>
+</div>
+<script>
+const knowledge = [
+{q:["what are coordinates","define coordinates","meaning of coordinates","coordinates meaning","what is a coordinate"],k:["coordinates","position","location"],a:"Coordinates are clues that help us identify the exact position of an object on a grid. A grid location uses a letter and a number."},
+{q:["how do i read a grid","read grid location","how to find a location","how do you read coordinates","grid reading"],k:["read","grid","location"],a:"To read a grid location, find the letter along the bottom first. Then find the number along the side. The letter and number together show the location."},
+{q:["what is a reference point","define reference point","meaning of reference point","why use reference point"],k:["reference","starting point"],a:"A reference point is a place or object that we use as a starting point to describe where another object is. Always check the reference point first."},
+{q:["why do i need a reference point","why reference point important","where do i start"],k:["reference","start"],a:"A reference point helps everyone describe a position from the same starting place. Without it, directions may be confusing."},
+{q:["what does east mean","which way is east","east direction"],k:["east"],a:"East means to the right on the grid when it is shown in the usual direction layout."},
+{q:["what does west mean","which way is west","west direction"],k:["west"],a:"West means to the left on the grid when it is shown in the usual direction layout."},
+{q:["what does north mean","which way is north","north direction"],k:["north"],a:"North means upwards on the grid."},
+{q:["what does south mean","which way is south","south direction"],k:["south"],a:"South means downwards on the grid."},
+{q:["how do i move right","one step right","move to the right"],k:["right","move"],a:"Move one square to the right. The letter changes to the next letter, while the row number stays the same."},
+{q:["how do i move left","one step left","move to the left"],k:["left","move"],a:"Move one square to the left. The letter changes to the previous letter, while the row number stays the same."},
+{q:["how do i move up","one step up","move upwards"],k:["up","move"],a:"Move one square upwards. The row number increases by one, while the letter stays the same."},
+{q:["how do i move down","one step down","move downwards"],k:["down","move"],a:"Move one square downwards. The row number decreases by one, while the letter stays the same."},
+{q:["what is a row","define row","meaning of row"],k:["row"],a:"A row goes from left to right across the grid. The numbers label the rows."},
+{q:["what is a column","define column","meaning of column"],k:["column"],a:"A column goes from top to bottom in the grid. The letters label the columns."},
+{q:["which comes first letter or number","letter or number first","order of grid coordinates"],k:["first","letter","number"],a:"Read the letter first, followed by the number. For example, B3 means column B and row 3."},
+{q:["what does b2 mean","explain b2","where is b2"],k:["b2"],a:"B2 means the square in column B and row 2. Find column B first, then move to row 2."},
+{q:["what does c3 mean","explain c3","where is c3"],k:["c3"],a:"C3 means the square in column C and row 3."},
+{q:["what is a1","where is a1","explain a1"],k:["a1"],a:"A1 is the square in column A and row 1."},
+{q:["what is d4","where is d4","explain d4"],k:["d4"],a:"D4 is the square in column D and row 4."},
+{q:["move one step right from b2","b2 one right","one right from b2"],k:["b2","right"],a:"One step right from B2 is C2. The letter changes from B to C, and the row stays 2."},
+{q:["move one step left from c2","c2 one left","one left from c2"],k:["c2","left"],a:"One step left from C2 is B2. The letter changes from C to B, and the row stays 2."},
+{q:["move one step up from b2","b2 one up","one up from b2"],k:["b2","up"],a:"One step up from B2 is B3. The letter stays B and the row changes from 2 to 3."},
+{q:["move one step down from b3","b3 one down","one down from b3"],k:["b3","down"],a:"One step down from B3 is B2. The letter stays B and the row changes from 3 to 2."},
+{q:["move two steps right from a1","a1 two right","two right from a1"],k:["a1","two","right"],a:"Move A1 to B1, then to C1. The final location is C1."},
+{q:["move two steps up from a1","a1 two up","two up from a1"],k:["a1","two","up"],a:"Move A1 to A2, then to A3. The final location is A3."},
+{q:["move right and then up from b2","one right one up from b2"],k:["b2","right","up"],a:"From B2, move one square right to C2. Then move one square up to C3. The final location is C3."},
+{q:["move left and then down from c3","one left one down from c3"],k:["c3","left","down"],a:"From C3, move one square left to B3. Then move one square down to B2. The final location is B2."},
+{q:["how do i find an object on a grid","find object location","identify object position"],k:["find","object","grid"],a:"Look at the object and check the square it is in. Read the letter at the bottom first, then the number at the side."},
+{q:["what if i start from the wrong point","wrong reference point","i am confused where to start"],k:["wrong","point","start"],a:"Pause and look at the reference point given in the question. Start from that exact place before following the directions."},
+{q:["how can i avoid mixing up directions","confuse directions","remember directions"],k:["directions","confused"],a:"Remember: right is east, left is west, up is north and down is south on the usual grid map. Check the compass labels if they are shown."},
+{q:["what is horizontal","horizontal direction","meaning of horizontal"],k:["horizontal"],a:"Horizontal means across the grid from left to right. Moving east or west changes the letter."},
+{q:["what is vertical","vertical direction","meaning of vertical"],k:["vertical"],a:"Vertical means up and down the grid. Moving north or south changes the row number."},
+{q:["does moving right change the number","right changes letter or number"],k:["right","number"],a:"No. Moving right changes the letter to the next column. The row number stays the same."},
+{q:["does moving up change the letter","up changes letter or number"],k:["up","letter"],a:"No. Moving up changes the row number. The letter stays the same."},
+{q:["what is the difference between row and column","row versus column","row and column difference"],k:["row","column"],a:"A row goes across and is labelled with numbers. A column goes up and down and is labelled with letters."},
+{q:["how do i describe where an object is","describe object position","tell the location"],k:["describe","position"],a:"Name the reference point, then describe how many squares and which direction the object is from it."},
+{q:["what does one square away mean","one step on a grid","count squares"],k:["square","count"],a:"Count each square you move, one at a time. Do not count the starting square as a move."},
+{q:["can two objects be in the same location","same grid location"],k:["two objects","same","location"],a:"In a grid activity, check the picture carefully. If two symbols appear in one square, use the question instructions to decide what they represent."},
+{q:["what should i do if i get the wrong answer","i got it wrong","incorrect answer"],k:["wrong answer","incorrect"],a:"That is okay, Agent! Check your reference point, count the squares again and make sure you follow the correct direction."},
+{q:["can you give me a hint","give me a clue","i need a hint"],k:["hint","clue"],a:"Here is a hint: identify the starting point first. Then follow one direction at a time and count each square carefully."},
+{q:["i do not understand coordinates","i dont understand","i need help"],k:["understand","help"],a:"No worries, Agent! Start with a simple grid. Find the letter along the bottom, then find the number along the side. Ask me about a reference point or a direction if you need more help."},
+{q:["what is the first thing to do in a coordinate question","first step coordinate question"],k:["first step","coordinate"],a:"First, read the question carefully and identify the reference point. Next, follow the directions one step at a time."},
+{q:["how do i move three squares east","three squares east","move east"],k:["east","squares"],a:"Move three squares to the right, counting one square at a time. The column letter moves forward three places."},
+{q:["how do i move two squares north","two squares north","move north"],k:["north","squares"],a:"Move two squares upwards. The row number increases by two."},
+{q:["how do i move two squares west","two squares west","move west"],k:["west","squares"],a:"Move two squares to the left. The column letter moves back two places."},
+{q:["how do i move one square south","one square south","move south"],k:["south","square"],a:"Move one square downwards. The row number decreases by one."},
+{q:["hello","hi","hey","good morning"],k:["hello","hi"],a:"Hello, Agent! 👋 Ready for your coordinate mission? You can ask me about grid locations, directions or reference points."},
+{q:["thank you","thanks","thank you iris"],k:["thank","thanks"],a:"You're welcome, Agent! Keep practising and you will become a confident coordinate explorer."},
+{q:["who are you","what is your name","are you iris"],k:["who","name","iris"],a:"I am IRIS, your MATA virtual learning assistant. I can help you practise Year 3 coordinates."}
+];
+
+const stop = new Set(["what","how","do","i","is","are","the","a","an","to","from","me","can","you","please","my","does","it","in","on","of","and","for","with","where","which","this","that","tell","explain"]);
+function tokens(s){return s.toLowerCase().replace(/[^a-z0-9\s]/g," ").split(/\s+/).filter(w=>w&&!stop.has(w));}
+function similarity(a,b){
+ const A=new Set(tokens(a)), B=new Set(tokens(b));
+ if(!A.size||!B.size)return 0;
+ let hit=0; for(const w of A)if(B.has(w))hit++;
+ return hit/(A.size+B.size-hit);
+}
+function getAnswer(question){
+ let best=null, score=0;
+ for(const item of knowledge){
+   for(const phrase of item.q){
+     const s=similarity(question,phrase);
+     if(s>score){score=s;best=item;}
+   }
+   const words=tokens(question);
+   const hits=item.k.filter(k=>words.includes(k)).length;
+   const keywordScore=hits/Math.max(2,Math.min(item.k.length,words.length));
+   if(keywordScore>score){score=keywordScore;best=item;}
+ }
+ return score>=0.24 && best ? best.a : null;
+}
+const messages=document.getElementById("messages");
+const input=document.getElementById("question");
+let failedAttempts=0;
+function addMessage(text,who){
+ const div=document.createElement("div");div.className="msg "+who;
+ const sender=document.createElement("span");sender.className="sender";sender.textContent=who==="bot"?"IRIS":"YOU";
+ div.appendChild(sender);div.appendChild(document.createTextNode(text));messages.appendChild(div);messages.scrollTop=messages.scrollHeight;
+}
+function sendQuestion(q){
+ const question=q.trim();if(!question)return;
+ addMessage(question,"user");input.value="";
+ const answer=getAnswer(question);
+ if(answer){failedAttempts=0;addMessage(answer,"bot");}
+ else{
+   failedAttempts++;
+   if(failedAttempts>=2){
+     addMessage("I'm sorry, Agent. I still cannot find a suitable answer. Please consult your teacher for help with this question. Your teacher can guide you through the mission!","bot");
+     failedAttempts=0;
+   }else{
+     addMessage("I'm not sure I understand that question yet. Try asking in a different way, or choose one of the Quick Help topics. If I still cannot help, I will recommend that you consult your teacher.","bot");
+   }
+ }
+}
+document.getElementById("chatForm").addEventListener("submit",e=>{e.preventDefault();sendQuestion(input.value);});
+document.querySelectorAll(".topic").forEach(b=>b.addEventListener("click",()=>sendQuestion(b.dataset.q)));
+</script>
+</body>
+</html>
